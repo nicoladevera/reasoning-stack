@@ -45,6 +45,8 @@ Commands are available immediately — no restart required. Invoke them in Claud
 | Command | Description | Install path |
 |---------|-------------|--------------|
 | [`/forum`](./forum/README.md) | Convene a council of agents to pressure-test an idea through structured debate | `~/.claude/commands/forum.md` |
+| [`/premortem`](./premortem/README.md) | Assume your idea has already failed — work backward to find out why | `~/.claude/commands/premortem.md` |
+| [`/horizon`](./horizon/README.md) | Map second- and third-order consequences of a decision over time | `~/.claude/commands/horizon.md` |
 
 ---
 
