@@ -109,13 +109,6 @@ systematic AI-assisted development as the default workflow.
 - Team velocity becomes unevenly distributed; "AI-fluent" ICs ship 3x
   while others stall, creating morale and leveling tension
 
-### Third-Order Effects (12–24 months)
-**From code review breakdown:**
-- Juniors ramp faster but develop weaker mental models — they ship without
-  understanding why the code works
-- Architecture decisions increasingly shaped by AI suggestion patterns
-  rather than principled design
-
 ### Incentive Shifts
 **New power centers:**
 - Platform/infra teams that control AI tooling access and prompt libraries
