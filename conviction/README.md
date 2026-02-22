@@ -109,12 +109,6 @@ Use `/conviction` when you:
 - Want to know how much your confidence is actually warranted
 - Need to communicate a position and want to know where it's weakest
 
-**Contrast with other commands:**
-
-- Use `/premortem` when you want to stress-test a *decision* by assuming it fails and working backward
-- Use `/forum` when you want to pressure-test an *idea* through multi-perspective debate
-- Use `/conviction` when you want to audit a *belief* — map what you actually know, what you're assuming, and what would change your mind
-
 ---
 
 ## Requirements

@@ -95,14 +95,6 @@ Use `/horizon` when you:
 
 ---
 
-## How It Relates to Other Commands
-
-- Use `/premortem` when you want to stress-test a specific idea by assuming it already failed and working backward
-- Use `/forum` when you want multi-perspective debate to weigh pros and cons across expert lenses
-- Use `/horizon` when you want to trace causal chains *forward* across time — less about "is this a good idea?" and more about "what does this set in motion?"
-
----
-
 ## Requirements
 
 - Claude Code (standard installation)

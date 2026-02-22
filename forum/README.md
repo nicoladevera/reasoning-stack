@@ -106,6 +106,17 @@ A structured written output covering:
 
 ---
 
+## When to Use It
+
+Use `/forum` when you:
+
+- Have an idea or decision that feels right but hasn't been stress-tested
+- Need expert perspectives you don't have on your team
+- Are deciding between competing approaches and want the strongest objections surfaced
+- Want structured, multi-perspective debate rather than a single point of view
+
+---
+
 ## Council Composition
 
 The facilitator infers council roles from the domain and nature of your idea. For a product strategy question, you might get a Product Strategist, a Market Analyst, and a Customer Experience Researcher. For a technical architecture decision, an Engineer, a Security Architect, and an Engineering Manager.
@@ -118,5 +129,5 @@ Agents identify themselves by role title only — not by invented names — to k
 
 ## Requirements
 
-- Claude Code with multi-agent support (`TeamCreate`, `SendMessage`, `Task` tools)
-- Available in standard Claude Code installations
+- Claude Code with multi-agent support (`Task`, `TeamCreate`, `TeamDelete`, `SendMessage`, `TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`, `AskUserQuestion`, `WebSearch`, `WebFetch`)
+- Agent teams are experimental and disabled by default — see the [Claude Code agent teams documentation](https://code.claude.com/docs/en/agent-teams) to enable them

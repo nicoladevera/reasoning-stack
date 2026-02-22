@@ -94,8 +94,6 @@ Use `/succinct` when you:
 - Are about to present a decision and want to know what you're really asking for
 - Have been thinking about something for weeks and need to compress it to a single page
 
-It complements `/premortem` (stress-test a decision) and `/forum` (debate across perspectives) — use `/succinct` when the thinking is done and the problem is communication, not correctness.
-
 ---
 
 ## Requirements

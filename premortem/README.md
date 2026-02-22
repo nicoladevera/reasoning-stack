@@ -97,8 +97,6 @@ Use `/premortem` when you:
 - Want to pressure-test assumptions before a stakeholder presentation
 - Are planning a project and want to identify the highest-risk bets upfront
 
-It complements `/forum` (multi-agent debate) — use `/forum` when you want to weigh pros and cons across expert perspectives, use `/premortem` when you want to stress-test a decision you're leaning toward.
-
 ---
 
 ## Requirements
