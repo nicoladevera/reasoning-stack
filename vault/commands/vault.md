@@ -14,7 +14,7 @@ Vault is an output layer, not a reasoning tool. Do not add analysis, critique, o
 
 <!-- ============================================================ -->
 <!-- USER CONFIGURATION: Edit VAULT_PATH before first use        -->
-VAULT_PATH: ~/Documents/NDV-PERSONAL OS/Knowledge/Vault
+VAULT_PATH: ~/Documents/vault
 <!-- END CONFIGURATION                                            -->
 <!-- ============================================================ -->
 
@@ -105,7 +105,7 @@ Then prepare the following for file writing:
 - **Filename**: `{YYYYMMDD}_{type}_{slug}.md`
 - **Entry ID**: Use `Bash` to count existing entries for today's date in the index:
   ```
-  grep -c "\"date\":\"YYYY-MM-DD\"" ~/Documents/NDV-PERSONAL\ OS/Knowledge/Vault/index.jsonl 2>/dev/null || echo 0
+  grep -c "\"date\":\"YYYY-MM-DD\"" {VAULT_PATH}/index.jsonl 2>/dev/null || echo 0
   ```
   (Replace `YYYY-MM-DD` with today's actual date and `~/Documents/vault` with the configured VAULT_PATH.)
   NNN = count + 1, zero-padded to 3 digits. Format: `vault-{YYYYMMDD}-{NNN}`
