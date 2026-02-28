@@ -22,19 +22,28 @@ VAULT_PATH: ~/Documents/vault
 
 ## Phase 1: Scan and Confirm
 
-Read back through the full conversation context. Identify:
-- Which thinking-stack commands were used (forum, premortem, horizon, conviction, succinct), if any
-- What the core topic or question was
-- Whether this was a structured thinking session, a freeform strategic conversation, or a mix
-- One sentence describing what happened in the session — not the conclusions, but the kind of thinking that occurred
+Read back through the full conversation context. Identify all thinking-stack commands that were used (forum, premortem, horizon, conviction, succinct), the core topic, and whether this is a structured or freeform session.
 
-Use `AskUserQuestion` to present a brief summary and confirm what to vault:
+**If a single thinking command was used:**
+Use `AskUserQuestion` to confirm:
 
-> I found [description — e.g., "a premortem session exploring the risks of launching a paid tier before validating willingness to pay"]. Commands used: [list, or "none — freeform conversation"]. Is this what you want to vault?
+> I found a /[command] session on [topic]. Is this what you want to vault?
 
-Wait for explicit confirmation before proceeding.
+**If multiple thinking commands were used in the same conversation:**
+Use `AskUserQuestion` to present each individually and ask which to vault now:
 
-If the user corrects or narrows the scope (e.g., "only vault the premortem part, not the follow-up conversation"), note the change and proceed with the adjusted scope.
+> I found [N] thinking sessions in this conversation:
+> 1. /[command1] — [brief topic description]
+> 2. /[command2] — [brief topic description]
+>
+> Which would you like to vault? Run /vault again after to capture the other.
+
+**If no thinking commands were used (freeform session):**
+Use `AskUserQuestion` to confirm:
+
+> I found a freeform conversation about [topic]. Is this what you want to vault?
+
+Wait for explicit confirmation before proceeding. If the user corrects or narrows the scope, note the change and proceed with the adjusted scope.
 
 ---
 
@@ -46,13 +55,15 @@ Based on the session content, infer the following. Do not ask the user to define
 
 **Title**: Infer from the session topic. Choose something specific and memorable, not generic.
 
-**Type**: Infer from commands used and the nature of the session:
-- `forum` / `premortem` / `horizon` / `conviction` / `succinct` — if that command was the core of the session
-- `synthesis` — freeform session drawing together ideas from multiple threads or prior thinking
+**Type**: Set to the command name if a thinking command was used (`forum`, `premortem`, `horizon`, `conviction`, `succinct`). For freeform sessions, infer from session content:
+- `synthesis` — session drawing together ideas from multiple threads or prior thinking
 - `decision` — session where the primary output was a concrete commitment or choice
 - `note` — shorter capture, idea, or reflection that does not fit the above
 
 **Tags**: 2–4 concept-level labels drawn from the session. These should describe the underlying domain or problem type, not just the surface topic (e.g., "incentive design" not "pricing"; "organizational change" not "team restructure").
+
+**If vault detects it was already run earlier in this conversation** (visible as a prior "Vaulted. Saved to..." confirmation in the conversation history), pre-populate the same title and tags from that prior entry and note:
+> This looks like part of the same session — suggesting the same title and tags as your last vault entry. Adjust if needed.
 
 Use `AskUserQuestion` to present all three as a single prompt:
 
@@ -79,23 +90,60 @@ Accept whatever the user provides — a fragment, a few loose thoughts, a senten
 
 Do this work silently. Do not show your reasoning or intermediate steps. Produce the artifacts in Phase 4 directly.
 
-From the full conversation context (scoped to what was confirmed in Phase 1), extract:
+**Determine extraction mode based on the confirmed session type:**
+- **Command mode**: the session being vaulted used one of the five thinking commands (forum, premortem, horizon, conviction, succinct)
+- **Freeform mode**: the session type is note, decision, or synthesis
+
+---
+
+### Command Mode (forum, premortem, horizon, conviction, succinct)
+
+Preserve the command output exactly as produced — verbatim, including all sections, tables, headers, and lists. Do not summarize, compress, or editorialize. The structured output is the artifact.
+
+Extract the session arc fields:
+
+**Input** — what the user brought to the command: the original argument, question, or idea they passed in.
+
+**What shifted** — any refinements, clarifications, or changes that occurred during the session (back-and-forth before the output was produced). If nothing shifted, write "Nothing shifted materially — the command ran on the original input."
+
+**Key conclusion** — extract command-specific, verbatim where possible:
+- **premortem** → the "If this fails, it's probably because…" sentence from the output
+- **horizon** → the Predicted New Bottleneck from the New Bottleneck Prediction section
+- **forum** → the Recommendation line + Consensus Signal (e.g., "Proceed with X. Consensus: Majority 3–1.")
+- **conviction** → the Confidence Score + Decision Rule ("Act now if… / Wait if…")
+- **succinct** → the Thesis sentence
+
+**Themes** — 3–5 concept-level labels for longitudinal pattern detection. Choose labels that will be meaningful across dozens of future entries from different domains.
+
+**Open questions** — unresolved items from the command output (e.g., unresolved assumptions in conviction, items flagged as uncertain in premortem). Write "None" if fully resolved.
+
+**Key assumptions** — load-bearing beliefs from the command output's assumptions section, or inferred from the reasoning if no explicit assumptions section exists.
+
+**Why it matters** — write a polished version of what the user provided in Phase 2 Step 2. Clean up the phrasing, sharpen the thought, preserve the user's intent. Keep it to 1–3 sentences.
+
+---
+
+### Freeform Mode (note, decision, synthesis)
+
+Extract the following:
 
 **Initial framing** — what did the user bring into the session? What was the question, idea, or problem as they originally stated it?
 
-**What shifted** — what changed during the session? What was refined, challenged, surprised, or resolved that was not clear at the start? If nothing shifted materially, say so plainly.
+**What shifted** — what changed during the session? What was refined, challenged, or resolved that was not clear at the start? If nothing shifted materially, say so plainly.
 
-**Key conclusion** — what was decided, resolved, or clarified by the end? If the session ended open or inconclusive, state that honestly.
+**Key conclusion** — what was decided, resolved, or clarified by the end? If the session ended open, state that honestly.
 
-**Full session summary** — a substantive narrative of the session. This is not metadata — it is the actual thinking. Write 150–300 words capturing what was discussed, the reasoning used, the key moves made, the tensions surfaced. Future-you should be able to read this and understand what happened without re-reading the full conversation.
+**Full session summary** — a substantive narrative of the session. Write 150–300 words capturing what was discussed, the reasoning used, the key moves made, the tensions surfaced. Future-you should be able to read this and understand what happened without re-reading the full conversation.
 
-**Themes** — 3–5 concept-level labels for longitudinal pattern detection. Choose labels that will be meaningful across dozens of future entries from different domains. Think about the underlying pattern, not just the surface instance. These may differ from the tags chosen in Phase 2.
+**Themes** — 3–5 concept-level labels for longitudinal pattern detection.
 
-**Open questions** — what remained unresolved at the end of the session? List as discrete items, or write "none" if fully resolved.
+**Open questions** — what remained unresolved at the end of the session. Write "None" if fully resolved.
 
-**Key assumptions** — what load-bearing beliefs did the session's reasoning rest on that were not fully validated?
+**Key assumptions** — load-bearing beliefs the session's reasoning rested on that were not fully validated.
 
-**Why it matters** — write a polished version of what the user provided in Phase 2 Step 2. Clean up the phrasing, sharpen the thought, preserve the user's intent. Keep it to 1–3 sentences.
+**Why it matters** — write a polished version of what the user provided in Phase 2 Step 2.
+
+---
 
 Then prepare the following for file writing:
 
@@ -107,7 +155,7 @@ Then prepare the following for file writing:
   ```
   grep -c "\"date\":\"YYYY-MM-DD\"" {VAULT_PATH}/index.jsonl 2>/dev/null || echo 0
   ```
-  (Replace `YYYY-MM-DD` with today's actual date and `~/Documents/vault` with the configured VAULT_PATH.)
+  (Replace `YYYY-MM-DD` with today's actual date.)
   NNN = count + 1, zero-padded to 3 digits. Format: `vault-{YYYYMMDD}-{NNN}`
 
 ---
@@ -127,7 +175,7 @@ This runs every time vault is invoked. `mkdir -p` is idempotent — it creates t
 
 Use `Write` to create `{VAULT_PATH}/artifacts/{filename}`.
 
-Use this exact structure:
+**Command mode — use this format:**
 
 ```markdown
 # {Title}
@@ -135,7 +183,56 @@ Use this exact structure:
 **Date**: {YYYY-MM-DD}
 **Type**: {type}
 **Tags**: {tag1, tag2}
-**Source**: {command(s) used, or "freeform conversation"}
+**Source**: /{command}
+
+---
+
+## Session Arc
+
+**Input**: {what the user brought to the command}
+
+**What shifted**: {what changed, or "Nothing shifted materially — the command ran on the original input."}
+
+**Conclusion**: {command-specific key conclusion extracted above}
+
+---
+
+## Command Output
+
+{Full structured output from the thinking command, preserved verbatim}
+
+---
+
+## Extracted
+
+**Themes**: {theme1, theme2, theme3}
+
+**Open questions**:
+{- question 1 (or "None")}
+
+**Key assumptions**:
+{- assumption 1}
+
+---
+
+## Why This Matters
+
+{Polished version of user's reflection}
+
+---
+
+*Vaulted: {ISO 8601 timestamp}*
+```
+
+**Freeform mode — use this format:**
+
+```markdown
+# {Title}
+
+**Date**: {YYYY-MM-DD}
+**Type**: {type}
+**Tags**: {tag1, tag2}
+**Source**: {freeform conversation}
 
 ---
 
@@ -160,7 +257,7 @@ Use this exact structure:
 **Themes**: {theme1, theme2, theme3}
 
 **Open questions**:
-{- question 1 (or "None" if resolved)}
+{- question 1 (or "None")}
 
 **Key assumptions**:
 {- assumption 1}
@@ -196,6 +293,7 @@ Field notes:
 - `source_commands`: list of command names used, or `["freeform"]` if no structured commands
 - `open_questions`: list of strings, or `[]` if none
 - `themes`: distinct from tags — concept-level, longitudinal
+- `key_conclusion`: use the command-specific extraction defined in Phase 3; for freeform mode, a brief sentence summarizing the conclusion
 - All string values must be single-line, properly escaped JSON
 
 ### Step 4: Confirm
@@ -210,6 +308,7 @@ Output a plain-text confirmation (not `AskUserQuestion`):
 ## Vault Principles
 
 - **Capture, don't editorialize** — accurate preservation of what happened, not improvement of it. Do not add insights the session didn't produce.
+- **Exact preservation for command outputs** — when vaulting a thinking-stack command, copy the structured output verbatim into "Command Output". Do not summarize, paraphrase, or compress. The structure is the value.
 - **Infer, don't interrogate** — suggest title, type, and tags from session content; the user confirms or adjusts. Never ask them to define these from scratch.
 - **Polish the reflection** — accept rough thoughts for "why it matters" and write the clean version. Meet the user where they are.
 - **Silent extraction** — Phase 3 is internal work. Do not narrate the extraction process.

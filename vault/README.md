@@ -62,7 +62,7 @@ Run it at the end of a session where real thinking happened — a premortem, a c
 
 Vault reads back through the full conversation and identifies what happened: which thinking-stack commands were used, what the core topic was, and a one-sentence description of the session type. It presents this as a summary and asks you to confirm — or correct — before writing anything.
 
-One gate. One question. If you only want to vault part of a session (e.g., the premortem but not the follow-up conversation), tell it and it adjusts.
+One gate. One question. If the conversation contains multiple thinking commands, Vault presents them individually and asks which to vault now — run `/vault` again after to capture the other.
 
 ### Phase 2: Gather Metadata
 
@@ -74,15 +74,13 @@ After confirmation, Vault asks one open question: *Why does this session matter 
 
 ### Phase 3: Extract
 
-Vault extracts the following from the conversation without showing its work:
+Vault extracts silently, in one of two modes depending on session type:
 
-- **Initial framing** — what you brought into the session
-- **What shifted** — what changed, evolved, or was resolved during the session
-- **Key conclusion** — what was decided or clarified (or "open" if unresolved)
-- **Full session summary** — a substantive 150–300 word narrative of the actual thinking
-- **Themes** — 3–5 concept-level labels for longitudinal pattern detection across entries
-- **Open questions** — what remained unresolved
-- **Key assumptions** — the load-bearing beliefs the session's reasoning rested on
+**For thinking-stack commands (forum, premortem, horizon, conviction, succinct):** The full structured output is preserved verbatim — every section, table, and list — in a "Command Output" block. The session arc (input, what shifted, conclusion) wraps it with framing. The conclusion is extracted command-specifically: the thesis for succinct, the confidence score + decision rule for conviction, the recommendation + consensus signal for forum, and so on.
+
+**For freeform sessions (note, decision, synthesis):** A substantive 150–300 word prose narrative captures the actual thinking — what was discussed, the reasoning used, the key moves made, and the tensions surfaced.
+
+Both modes also extract themes, open questions, and key assumptions for the JSONL index.
 
 ### Phase 4: Write and Confirm
 
